@@ -1,0 +1,220 @@
+# Docker Images – Theory Notes
+
+## What is a Docker Image?
+
+A **Docker image** is a **read-only template** used to create Docker containers. It contains everything an application needs to run, including:
+
+* Application code
+* Runtime environment
+* Libraries
+* Dependencies
+* System tools
+* Configuration files
+
+Think of a Docker image as a **blueprint**, while a Docker container is the **actual running instance** created from that blueprint.
+
+---
+
+## Docker Image vs Docker Container
+
+| Docker Image                     | Docker Container                |
+| -------------------------------- | ------------------------------- |
+| Read-only template               | Running instance of an image    |
+| Cannot be modified while running | Can execute processes           |
+| Used to create containers        | Created from images             |
+| Can be shared easily             | Exists only after being created |
+
+**Example:**
+
+* Image = Cake recipe
+* Container = The cake baked using the recipe
+
+---
+
+## Characteristics of Docker Images
+
+* Read-only
+* Portable across systems
+* Lightweight
+* Reusable
+* Version-controlled using tags
+* Can be stored in image registries
+
+---
+
+## What is Docker Hub?
+
+**Docker Hub** is the official online repository for Docker images.
+
+It allows users to:
+
+* Download public images
+* Upload their own images
+* Share images with others
+* Maintain different image versions
+
+Examples of images available on Docker Hub:
+
+* Ubuntu
+* Nginx
+* MySQL
+* Python
+* Node.js
+* Redis
+
+---
+
+## What is an Image Registry?
+
+An **image registry** is a storage location for Docker images.
+
+Examples:
+
+* Docker Hub
+* GitHub Container Registry
+* Amazon Elastic Container Registry (ECR)
+* Google Artifact Registry
+* Azure Container Registry
+
+---
+
+## Docker Image Layers
+
+Docker images are built using **multiple layers**.
+
+Each instruction in a Dockerfile creates a new layer.
+
+Example:
+
+* Base operating system
+* Install Python
+* Install packages
+* Copy application files
+* Set startup command
+
+Benefits of layers:
+
+* Faster image builds
+* Efficient storage
+* Layer reuse
+* Reduced download size
+
+---
+
+## Image Tags
+
+A **tag** identifies a specific version of an image.
+
+Examples:
+
+* `python:3.12`
+* `ubuntu:24.04`
+* `nginx:latest`
+
+If no tag is specified, Docker uses the **latest** tag by default.
+
+---
+
+## Pulling an Image
+
+If an image is not available locally, Docker automatically downloads it from Docker Hub.
+
+This process is called **pulling an image**.
+
+Example:
+
+```bash
+docker pull ubuntu
+```
+
+---
+
+## Listing Images
+
+Docker stores downloaded images locally.
+
+To view them:
+
+```bash
+docker images
+```
+
+This displays:
+
+* Repository
+* Tag
+* Image ID
+* Creation date
+* Size
+
+---
+
+## Creating a Custom Docker Image
+
+A custom Docker image is created using a **Dockerfile**.
+
+A Dockerfile is a text file containing instructions that Docker follows to build an image.
+
+Typical steps:
+
+1. Choose a base image.
+2. Copy application files.
+3. Install dependencies.
+4. Configure the application.
+5. Define the startup command.
+
+---
+
+## Building a Docker Image
+
+Docker builds an image by reading the Dockerfile.
+
+Example command:
+
+```bash
+docker build -t myimage .
+```
+
+Here:
+
+* `build` creates the image.
+* `-t` assigns a name (tag).
+* `.` indicates the current directory contains the Dockerfile.
+
+---
+
+## Running an Image
+
+After creating an image, it can be used to create one or more containers.
+
+Example:
+
+```bash
+docker run myimage
+```
+
+Every execution creates a new container from the same image.
+
+---
+
+## Advantages of Docker Images
+
+* Fast deployment
+* Easy application sharing
+* Consistent execution across environments
+* Reduced setup time
+* Supports version control
+* Lightweight and portable
+* Easy rollback to previous versions
+
+---
+
+## Key Points to Remember
+
+* An image is a **template**; a container is its **running instance**.
+* Images are **read-only**.
+* Images consist of multiple **layers**.
+* Images can be downloaded from **Docker Hub**.
+* Images are built using a **Dockerfile**.
+* Multiple containers can be created from the same image.
+* Images can be versioned using **tags**.
