@@ -1,220 +1,323 @@
-# Docker Images – Theory Notes
+# Docker Day_1 Notes
 
-## What is a Docker Image?
+# 🐳 Docker Notes
 
-A **Docker image** is a **read-only template** used to create Docker containers. It contains everything an application needs to run, including:
+## 1. What is Docker?
+
+Docker is an **open-source containerization platform** that allows developers to build, package, distribute, and run applications in isolated environments called **containers**.
+
+Docker ensures that an application runs the same way on every machine by packaging the application together with all its required dependencies.
+
+### Why Docker?
+
+Without Docker:
+
+* Applications may work on one system but fail on another.
+* Different library versions can create compatibility issues.
+* Setting up environments can be time-consuming.
+
+With Docker:
+
+* Applications run consistently.
+* Deployment is faster.
+* Collaboration becomes easier.
+* Development and production environments remain the same.
+
+---
+
+# 2. What is a Docker Image?
+
+A **Docker Image** is a **read-only template** used to create Docker containers.
+
+It contains everything required to run an application:
 
 * Application code
-* Runtime environment
+* Runtime
 * Libraries
 * Dependencies
 * System tools
 * Configuration files
 
-Think of a Docker image as a **blueprint**, while a Docker container is the **actual running instance** created from that blueprint.
+Think of an image as a blueprint or recipe.
+
+One image can create multiple containers.
 
 ---
 
-## Docker Image vs Docker Container
+# 3. What is a Docker Container?
 
-| Docker Image                     | Docker Container                |
-| -------------------------------- | ------------------------------- |
-| Read-only template               | Running instance of an image    |
-| Cannot be modified while running | Can execute processes           |
-| Used to create containers        | Created from images             |
-| Can be shared easily             | Exists only after being created |
+A **Docker Container** is the **running instance of a Docker image**.
 
-**Example:**
+When an image is executed, Docker creates a container.
 
-* Image = Cake recipe
-* Container = The cake baked using the recipe
+A container is:
 
----
-
-## Characteristics of Docker Images
-
-* Read-only
-* Portable across systems
 * Lightweight
-* Reusable
-* Version-controlled using tags
-* Can be stored in image registries
+* Portable
+* Isolated
+* Fast
+* Temporary (unless data is stored externally)
 
 ---
 
-## What is Docker Hub?
+# 4. Docker Image vs Docker Container
 
-**Docker Hub** is the official online repository for Docker images.
+| Docker Image                    | Docker Container                           |
+| ------------------------------- | ------------------------------------------ |
+| Blueprint                       | Running application                        |
+| Read-only                       | Read and write                             |
+| Used to create containers       | Created from images                        |
+| Stored locally or on Docker Hub | Runs on the Docker Engine                  |
+| Can create many containers      | Exists only while running (unless stopped) |
 
-It allows users to:
+### Real-life Example
 
-* Download public images
-* Upload their own images
-* Share images with others
-* Maintain different image versions
+Imagine baking a cake.
 
-Examples of images available on Docker Hub:
+* **Recipe** = Docker Image
+* **Cake** = Docker Container
 
-* Ubuntu
-* Nginx
-* MySQL
-* Python
-* Node.js
-* Redis
+One recipe can be used to bake many cakes.
 
 ---
 
-## What is an Image Registry?
+# 5. Why is Docker Efficient?
 
-An **image registry** is a storage location for Docker images.
+Docker is efficient because:
+
+* Containers share the host operating system.
+* No separate operating system is required for each application.
+* Applications start within seconds.
+* Less memory is used.
+* CPU utilization is lower.
+* Faster deployment.
+* Better scalability.
+
+---
+
+# 6. Containers Include Dependencies
+
+One major advantage of Docker is that containers package:
+
+* Application code
+* Libraries
+* Runtime
+* Dependencies
+* Configuration files
+
+This eliminates the famous problem:
+
+> "It works on my machine."
+
+The application behaves the same everywhere.
+
+---
+
+# 7. Isolation
+
+Docker containers are isolated from one another.
+
+Each container has its own:
+
+* File system
+* Processes
+* Network
+* Environment variables
+* Installed software
+
+Problems inside one container generally do not affect other containers.
+
+---
+
+# 8. Linux Namespaces
+
+Docker achieves isolation using **Linux Namespaces**.
+
+A namespace separates system resources so each container believes it has its own environment.
+
+Different containers cannot directly access each other's resources.
+
+---
+
+# Types of Namespaces
+
+## PID Namespace
+
+* Isolates processes.
+* Each container has its own process IDs.
+
+---
+
+## Network Namespace
+
+Provides:
+
+* Own IP address
+* Network interfaces
+* Routing table
+* Ports
+
+---
+
+## Mount Namespace
+
+Provides an independent filesystem.
+
+Containers cannot see files outside their assigned filesystem.
+
+---
+
+## UTS Namespace
+
+Allows each container to have its own:
+
+* Hostname
+* Domain name
+
+---
+
+## IPC Namespace
+
+Isolates communication mechanisms such as:
+
+* Shared memory
+* Message queues
+* Semaphores
+
+---
+
+## User Namespace
+
+Maps users inside the container to different users on the host.
+
+Improves security.
+
+---
+
+# 9. Linux Control Groups (cgroups)
+
+Docker uses **Control Groups (cgroups)** to limit and monitor resource usage.
+
+They prevent one container from consuming all system resources.
+
+---
+
+# Types of cgroups
+
+## CPU
+
+Limits processor usage.
+
+---
+
+## Memory
+
+Limits RAM usage.
+
+---
+
+## Block I/O
+
+Controls disk read/write speed.
+
+---
+
+## Network
+
+Limits network bandwidth.
+
+---
+
+## Devices
+
+Controls access to hardware devices.
+
+---
+
+## Freezer
+
+Temporarily pauses and resumes containers.
+
+---
+
+# 10. Trusted Images
+
+Always use trusted Docker images.
+
+Trusted images are:
+
+* Official images
+* Verified publishers
+* Frequently updated
+* Secure
+* Well maintained
 
 Examples:
 
-* Docker Hub
-* GitHub Container Registry
-* Amazon Elastic Container Registry (ECR)
-* Google Artifact Registry
-* Azure Container Registry
+* ubuntu
+* python
+* nginx
+* mysql
+* redis
+
+Avoid downloading unknown or unverified images.
 
 ---
 
-## Docker Image Layers
+# 11. Real-World Docker Images
 
-Docker images are built using **multiple layers**.
+Common Docker images include:
 
-Each instruction in a Dockerfile creates a new layer.
-
-Example:
-
-* Base operating system
-* Install Python
-* Install packages
-* Copy application files
-* Set startup command
-
-Benefits of layers:
-
-* Faster image builds
-* Efficient storage
-* Layer reuse
-* Reduced download size
+| Image      | Purpose                 |
+| ---------- | ----------------------- |
+| Ubuntu     | Linux operating system  |
+| Python     | Python development      |
+| Node       | JavaScript applications |
+| Nginx      | Web server              |
+| MySQL      | Database server         |
+| PostgreSQL | Relational database     |
+| Redis      | In-memory database      |
+| MongoDB    | NoSQL database          |
 
 ---
 
-## Image Tags
+# 12. Creating Your Own Docker Image
 
-A **tag** identifies a specific version of an image.
+You can create a custom image using a **Dockerfile**.
 
-Examples:
+A Dockerfile contains instructions for Docker.
 
-* `python:3.12`
-* `ubuntu:24.04`
-* `nginx:latest`
+Typical workflow:
 
-If no tag is specified, Docker uses the **latest** tag by default.
-
----
-
-## Pulling an Image
-
-If an image is not available locally, Docker automatically downloads it from Docker Hub.
-
-This process is called **pulling an image**.
-
-Example:
-
-```bash
-docker pull ubuntu
-```
-
----
-
-## Listing Images
-
-Docker stores downloaded images locally.
-
-To view them:
-
-```bash
-docker images
-```
-
-This displays:
-
-* Repository
-* Tag
-* Image ID
-* Creation date
-* Size
-
----
-
-## Creating a Custom Docker Image
-
-A custom Docker image is created using a **Dockerfile**.
-
-A Dockerfile is a text file containing instructions that Docker follows to build an image.
-
-Typical steps:
-
-1. Choose a base image.
+1. Select a base image.
 2. Copy application files.
 3. Install dependencies.
 4. Configure the application.
-5. Define the startup command.
-
----
-
-## Building a Docker Image
-
-Docker builds an image by reading the Dockerfile.
-
-Example command:
-
-```bash
-docker build -t myimage .
-```
-
-Here:
-
-* `build` creates the image.
-* `-t` assigns a name (tag).
-* `.` indicates the current directory contains the Dockerfile.
-
----
-
-## Running an Image
-
-After creating an image, it can be used to create one or more containers.
+5. Build the image.
+6. Run containers from the image.
 
 Example:
 
-```bash
-docker run myimage
+```dockerfile
+FROM python:3.12
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+CMD ["python", "app.py"]
 ```
 
-Every execution creates a new container from the same image.
+# Key Takeaways
 
----
-
-## Advantages of Docker Images
-
-* Fast deployment
-* Easy application sharing
-* Consistent execution across environments
-* Reduced setup time
-* Supports version control
-* Lightweight and portable
-* Easy rollback to previous versions
-
----
-
-## Key Points to Remember
-
-* An image is a **template**; a container is its **running instance**.
-* Images are **read-only**.
-* Images consist of multiple **layers**.
-* Images can be downloaded from **Docker Hub**.
-* Images are built using a **Dockerfile**.
-* Multiple containers can be created from the same image.
-* Images can be versioned using **tags**.
+* Docker is a containerization platform.
+* Images are templates; containers are running instances.
+* Containers package applications with all dependencies.
+* Docker uses Linux **namespaces** for isolation.
+* Docker uses **cgroups** to manage system resources.
+* Containers are lightweight, portable, and efficient.
+* Use official and trusted Docker images whenever possible.
+* You can create your own Docker images using a Dockerfile.
+* Docker simplifies development, testing, deployment, and CI/CD workflows.
