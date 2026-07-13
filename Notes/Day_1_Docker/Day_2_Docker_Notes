@@ -1,0 +1,154 @@
+# Day 2 – Docker Images, Docker Hub & Image Layers
+
+## Topics Covered
+
+### 1. Created a Python Application
+
+* Created a simple Python application (`app.py`)
+* Ran the application using:
+
+  ```bash
+  python app.py
+  ```
+* Understood why an application should be tested before containerizing it.
+
+---
+
+### 2. Dockerfile Basics
+
+Learned the purpose of a Dockerfile and the most common instructions:
+
+* `FROM` – Specifies the base image.
+* `WORKDIR` – Sets the working directory inside the container.
+* `COPY` – Copies files from the host into the image.
+* `CMD` – Specifies the default command to run when the container starts.
+
+Example:
+
+```dockerfile
+FROM python:3.14-slim
+
+WORKDIR /app
+
+COPY app.py .
+
+CMD ["python", "app.py"]
+```
+
+---
+
+### 3. Building Docker Images
+
+Built Docker images using:
+
+```bash
+docker build -t hello-docker .
+```
+
+Learned:
+
+* What a Docker image is.
+* The purpose of image tags (`-t`).
+* How Docker reads the Dockerfile during the build process.
+
+---
+
+### 4. Running Docker Containers
+
+Executed containers using:
+
+```bash
+docker run hello-docker
+```
+
+Also learned:
+
+* Difference between Docker images and containers.
+* Why a simple Python program exits immediately after execution.
+
+---
+
+### 5. Docker Hub
+
+Learned how to:
+
+* Log in to Docker Hub.
+* Tag Docker images.
+* Push images to Docker Hub.
+* Pull images from Docker Hub.
+
+Commands learned:
+
+```bash
+docker login
+docker tag hello-docker <dockerhub-username>/hello-docker
+docker push <dockerhub-username>/hello-docker
+docker pull <dockerhub-username>/hello-docker
+```
+
+---
+
+### 6. Docker Image Layers
+
+Learned that:
+
+* Every Dockerfile instruction creates a new image layer.
+* Docker caches layers to speed up future builds.
+* Unchanged layers are reused.
+* Frequently changing files should be copied near the end of the Dockerfile for better caching.
+
+---
+
+### 7. Docker Container Management
+
+Practiced:
+
+```bash
+docker ps
+docker ps -a
+docker logs <container-id>
+docker rm <container-id>
+docker container prune
+```
+
+Understood the difference between:
+
+* Running containers
+* Stopped containers
+* Removing containers
+* Removing images (`docker rmi`)
+
+---
+
+### 8. CI/CD Concepts
+
+Understood how Docker fits into a CI/CD workflow:
+
+```
+Write Code
+      ↓
+Create Dockerfile
+      ↓
+Build Docker Image
+      ↓
+Push to Docker Hub
+      ↓
+Pull Image on Server
+      ↓
+Run Container
+      ↓
+Deploy Application
+```
+
+---
+
+## Key Takeaways
+
+* A Dockerfile provides reproducible builds.
+* Docker images package an application together with its dependencies.
+* Docker Hub acts as a central registry for storing and sharing images.
+* Docker images are composed of reusable layers.
+* Layer caching significantly improves build performance.
+* Containers are temporary running instances of images and can be recreated whenever needed.
+docker container prune
+```
